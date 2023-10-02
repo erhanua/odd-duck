@@ -1,0 +1,80 @@
+body {
+  margin: 0;
+  font-size: 16px;
+}
+.container {
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 4fr 1fr;
+  grid-template-rows: 80px 1fr 50px 1fr 80px;
+  grid-template-areas:
+    "head head head head"
+    "nav  main main main"
+    "nav spacer spacer spacer "
+    "nav  aside aside aside"
+    "footer footer footer footer";
+}
+
+header,
+nav,
+main,
+footer,
+aside {
+  background-color: white;
+  color: black;
+  padding: 15px;
+  border: 1px sandybrown solid;
+}
+
+header {
+  grid-area: head;
+  display: flex;
+  align-items: center;
+}
+header span {
+  color: black;
+  font-size: 36px;
+  margin-left: 10px;
+}
+
+.spacer {
+  grid-area: spacer;
+  background-color: white;
+  border: 2px orange solid;
+}
+
+footer {
+  grid-area: footer;
+  text-align: center;
+}
+nav {
+  grid-area: nav;
+}
+
+.result-content {
+  width: 90%;
+  height: 90%;
+  padding: 3px;
+
+  border: 3px solid black; /* İçeriğin sınırlarını görmek için bir sınır ekledik. İsterseniz bu satırı kaldırabilirsiniz. */
+  margin: 10px; /* Kenarlardan 10px boşluk bıraktık. */
+}
+
+main {
+  grid-area: main;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  border: 2px black solid;
+}
+.product {
+  background-color: white;
+}
+.product img {
+  width: 100%;
+  height: 80%;
+}
+
+aside {
+  grid-area: aside;
+}
