@@ -1,3 +1,5 @@
+![Lighthouse](https://github.com/erhanua/odd-duck/blob/main/lighthouse%20odd-duck.png?raw=true)
+
 
 # Lab: Odd Duck Products
 
