@@ -1,4 +1,4 @@
-![Lighthouse]([KOPYALADIĞINIZ_URL](https://github.com/erhanua/odd-duck/blob/main/lighthouse%20odd-duck.png?raw=true))
+![Lighthouse]([https://github.com/erhanua/odd-duck/blob/main/lighthouse%20odd-duck.png?raw=true]
 
 
 # Lab: Odd Duck Products
