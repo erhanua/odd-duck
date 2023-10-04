@@ -77,6 +77,19 @@ const products = [
   new Product("shark", "assets/shark.jpg"),
   new Product("sweep", "assets/sweep.png"),
   new Product("tauntaun", "assets/tauntaun.jpg"),
+  new Product("bag", "assets/bag.jpg "),
+  new Product("banana", "assets/banana.jpg"),
+  new Product("bathroom", "assets/bathroom.jpg"),
+  new Product("boots", "assets/boots.jpg"),
+  new Product("breakfast", "assets/breakfast.jpg"),
+  new Product("bubblegum", "assets/bubblegum.jpg"),
+  new Product("chair", "assets/chair.jpg"),
+  new Product("cthulhu", "assets/cthulhu.jpg"),
+  new Product("dog-duck", "assets/dog-duck.jpg"),
+  new Product("dragon", "assets/dragon.jpg"),
+  new Product("pen", "assets/pen.jpg"),
+  new Product("pet-sweep", "assets/pet-sweep.jpg"),
+  new Product("scissors", "assets/scissors.jpg"),
 ];
 
 // Results display function
@@ -94,7 +107,10 @@ function displayResults() {
 // Let's add a button to show the results
 let resultsButton = document.createElement("button");
 resultsButton.textContent = "Show Results";
-resultsButton.addEventListener("click", displayResults);
+resultsButton.addEventListener("click", function () {
+  displayResults();
+  renderChart();
+});
 
 let navElement = document.querySelector("nav");
 navElement.appendChild(resultsButton);
@@ -104,3 +120,36 @@ productContainer.addEventListener("click", handleProductClick);
 
 // Initial render
 renderProducts();
+
+// function to create a new chart
+function renderChart() {
+  const ctx = document.getElementById("productChart").getContext("2d");
+
+  const labels = products.map((product) => product.name);
+  const views = products.map((product) => product.views);
+  const clicks = products.map((product) => product.clicks);
+
+  new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: "# of views",
+          data: views,
+          backgroundColor: "rgba(255, 99, 132, 0.2)",
+          borderColor: "rgba(255, 99, 132, 1)",
+          borderWidth: 1,
+        },
+        {
+          type: "line",
+          label: "# of clicks",
+          data: clicks,
+          backgroundColor: "rgba(54, 162, 235, 0.2)",
+          borderColor: "rgba(54, 162, 235, 1)",
+          borderWidth: 1,
+        },
+      ],
+    },
+  });
+}
