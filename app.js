@@ -5,11 +5,13 @@ let image2 = document.querySelector(".product:nth-child(2) img");
 let image3 = document.querySelector(".product:nth-child(3) img");
 
 // Product constructor function
-function Product(name, src) {
+function Product(name, src, views = 0, clicks = 0) {
   this.name = name;
   this.src = src;
-  this.views = 0;
-  this.clicks = 0;
+  this.views = views;
+  this.clicks = clicks;
+  // take the new object that is created, and put it into the array
+  products.push(this);
 }
 
 // Function to choose a random product
@@ -23,7 +25,6 @@ function renderProducts() {
   let product2Index = getRandomIndex();
   let product3Index = getRandomIndex();
 
-  // Ensure all three products are unique
   while (
     product1Index === product2Index ||
     product1Index === product3Index ||
@@ -33,7 +34,6 @@ function renderProducts() {
     product3Index = getRandomIndex();
   }
 
-  // Update the images' src and alt attributes
   image1.src = products[product1Index].src;
   image2.src = products[product2Index].src;
   image3.src = products[product3Index].src;
@@ -41,13 +41,14 @@ function renderProducts() {
   image2.alt = products[product2Index].name;
   image3.alt = products[product3Index].name;
 
-  // Increment the view count for each product
   products[product1Index].views++;
   products[product2Index].views++;
   products[product3Index].views++;
+
+  // Save to localStorage after rendering
+  localStorage.setItem("products", JSON.stringify(products));
 }
 
-// Handle product click
 function handleProductClick(event) {
   let clickedProduct = event.target.alt;
 
@@ -64,38 +65,34 @@ function handleProductClick(event) {
     }
   }
 
-  // If 25 votes have been completed, show results
   let totalClicks = products.reduce((acc, product) => acc + product.clicks, 0);
   if (totalClicks >= 25) {
-    productContainer.removeEventListener("click", handleProductClick); // Oylama event listener'ını kaldır
+    productContainer.removeEventListener("click", handleProductClick);
     displayResults();
+    localStorage.setItem("products", JSON.stringify(products));
+  } else {
+    localStorage.setItem("products", JSON.stringify(products));
   }
 }
 
-// Product array
-const products = [
-  new Product("shark", "assets/shark.jpg"),
-  new Product("sweep", "assets/sweep.png"),
-  new Product("tauntaun", "assets/tauntaun.jpg"),
-  new Product("bag", "assets/bag.jpg "),
-  new Product("banana", "assets/banana.jpg"),
-  new Product("bathroom", "assets/bathroom.jpg"),
-  new Product("boots", "assets/boots.jpg"),
-  new Product("breakfast", "assets/breakfast.jpg"),
-  new Product("bubblegum", "assets/bubblegum.jpg"),
-  new Product("chair", "assets/chair.jpg"),
-  new Product("cthulhu", "assets/cthulhu.jpg"),
-  new Product("dog-duck", "assets/dog-duck.jpg"),
-  new Product("dragon", "assets/dragon.jpg"),
-  new Product("pen", "assets/pen.jpg"),
-  new Product("pet-sweep", "assets/pet-sweep.jpg"),
-  new Product("scissors", "assets/scissors.jpg"),
-];
+let products = [];
 
-// Results display function
+if (localStorage.getItem("products") === null) {
+  products = [
+    new Product("shark", "assets/shark.jpg"),
+    new Product("sweep", "assets/sweep.png"),
+    // ... [Diğer ürünleriniz]
+  ];
+} else {
+  const productsLS = JSON.parse(localStorage.getItem("products"));
+  productsLS.forEach((product) => {
+    new Product(product.name, product.src, product.views, product.clicks);
+  });
+}
+
 function displayResults() {
   const resultsElement = document.querySelector(".result-content");
-  resultsElement.innerHTML = ""; // Clear previous results
+  resultsElement.innerHTML = "";
 
   products.forEach((product) => {
     const resultItem = document.createElement("p");
@@ -104,7 +101,6 @@ function displayResults() {
   });
 }
 
-// Let's add a button to show the results
 let resultsButton = document.createElement("button");
 resultsButton.textContent = "Show Results";
 resultsButton.addEventListener("click", function () {
@@ -115,13 +111,10 @@ resultsButton.addEventListener("click", function () {
 let navElement = document.querySelector("nav");
 navElement.appendChild(resultsButton);
 
-// Add event listener
 productContainer.addEventListener("click", handleProductClick);
 
-// Initial render
 renderProducts();
 
-// function to create a new chart
 function renderChart() {
   const ctx = document.getElementById("productChart").getContext("2d");
 
